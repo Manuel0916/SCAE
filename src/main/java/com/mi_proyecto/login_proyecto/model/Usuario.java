@@ -1,4 +1,4 @@
-package com.mi_proyecto.login_proyecto.modelo;
+package com.mi_proyecto.login_proyecto.model;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
