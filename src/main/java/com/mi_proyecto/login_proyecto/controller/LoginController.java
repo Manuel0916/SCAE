@@ -40,13 +40,13 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @GetMapping({"/", "/login"})
+    @GetMapping({ "/", "/login" })
     public String login(Model model) {
         model.addAttribute("Users", new Usuario());
         return "login";
     }
 
-    @PostMapping({ "/", "/login"})
+    @PostMapping({ "/", "/login" })
     public String authenticate(@RequestParam String userOrEmail, @RequestParam String password, Model model) {
         Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
         if (usuario != null && usuario.getPassword().equals(password)) {
@@ -82,8 +82,7 @@ public class LoginController {
     }
 
     @GetMapping("/trabajo")
-    public String trabajo(Model model) {
-        model.addAttribute("usuario", new Usuario());
+    public String trabajo() {
         return "Index";
     }
 

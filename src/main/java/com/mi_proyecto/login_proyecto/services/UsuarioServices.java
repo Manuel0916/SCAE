@@ -41,4 +41,8 @@ public class UsuarioServices {
         return findByUserOrEmail(userOrEmail);
     }
 
+    public void registrarEntradaSalida(Long id, String action) {
+
+    }
+
 }
