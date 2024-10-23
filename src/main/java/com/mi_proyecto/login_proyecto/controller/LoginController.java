@@ -40,20 +40,20 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @GetMapping("/login")
+    @GetMapping({"/", "/login"})
     public String login(Model model) {
         model.addAttribute("Users", new Usuario());
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping({ "/", "/login"})
     public String authenticate(@RequestParam String userOrEmail, @RequestParam String password, Model model) {
         Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
         if (usuario != null && usuario.getPassword().equals(password)) {
-            return "redirect:/";
+            return "/trabajo";
         } else {
             model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "/login";
+            return "redirect:/";
         }
     }
 
@@ -81,14 +81,15 @@ public class LoginController {
         }
     }
 
-    @GetMapping({ " ", "/", "/trabajo" })
+    @GetMapping("/trabajo")
     public String trabajo(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "Index";
     }
 
-    @PostMapping({ " ", "/", "/trabajo" })
-    public String hacertrabajo(@RequestParam String userOrEmail, @RequestParam String newpassword, @RequestParam String password, Model model) {
+    @PostMapping("/trabajo")
+    public String hacertrabajo(@RequestParam String userOrEmail, @RequestParam String newpassword,
+            @RequestParam String password, Model model) {
         if (!newpassword.equals(password)) {
             model.addAttribute("error", "Las contraseñas no coinciden.");
             return "/trabajo";
