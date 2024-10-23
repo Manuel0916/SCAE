@@ -12,12 +12,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mi_proyecto.login_proyecto.modelo.Usuario;
 import com.mi_proyecto.login_proyecto.repository.UsuarioRepository;
+import com.mi_proyecto.login_proyecto.services.UsuarioServices;
 
 @Controller
 public class LoginController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioServices usuarioServices;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -33,7 +37,7 @@ public class LoginController {
 
     @PostMapping("/registro")
     public String registerUser(@ModelAttribute("Usuario") Usuario usuario, RedirectAttributes redirect,
-                               BindingResult result) {
+            BindingResult result) {
         if (result.hasErrors()) {
             return "/registro";
         }
@@ -44,7 +48,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String authenticate(@RequestParam String userOrEmail, @RequestParam String password, Model model) {
-        Usuario usuario = findByUserOrEmail(userOrEmail);
+        Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
         if (usuario != null && usuario.getPassword().equals(password)) {
             return "redirect:/";
         } else {
@@ -53,20 +57,31 @@ public class LoginController {
         }
     }
 
-    public Usuario findByUserOrEmail(String userOrEmail) {
-        Usuario user = usuarioRepository.findByUsername(userOrEmail);
-        if (user == null) {
-            user = usuarioRepository.findByEmail(userOrEmail);
-        }
-        return user;
-    }
-
     @GetMapping("/contrasenia")
-    public String Contraseña() {
+    public String Contrasenia(Model model) {
+        model.addAttribute("usuario", new Usuario());
         return "contrasenia";
     }
 
-    @GetMapping({" ", "/", "/trabajo"})
+    @PostMapping("/contrasenia")
+    public String cambiarcontrasenia(@RequestParam String userOrEmail, @RequestParam String newpassword,
+            @RequestParam String password, Model model) {
+        if (!newpassword.equals(password)) {
+            model.addAttribute("error", "Las contraseñas no coinciden.");
+            return "/OlvidoContraseña";
+        }
+        Usuario user = usuarioServices.getUserByUsername(userOrEmail);
+        if (user != null) {
+            usuarioServices.olvidarContrasenna(user.getId(), newpassword);
+            model.addAttribute("message", "Contraseña cambiada con éxito.");
+            return "redirect:/";
+        } else {
+            model.addAttribute("error", "Usuario no encontrado.");
+            return "/contrasenia";
+        }
+    }
+
+    @GetMapping({ " ", "/", "/trabajo" })
     public String trabajo() {
         return "Index";
     }
@@ -80,8 +95,5 @@ public class LoginController {
     public String configuracion() {
         return "configuracion";
     }
-
-
-
 
 }
