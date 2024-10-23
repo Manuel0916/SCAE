@@ -1,0 +1,85 @@
+/* Reset para eliminar márgenes por defecto */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0b1f38; /* Fondo azul oscuro */
+}
+
+.login-container {
+    background-color: #1a2b47; /* Fondo del contenedor */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 350px;
+}
+
+h2 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #243b55;
+    color: white;
+}
+
+input::placeholder {
+    color: #b0bec5; /* Color del placeholder */
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #66e2dc; /* Botón de inicio de sesión */
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #53b2a7; /* Cambiar color en hover */
+}
+
+.forgot-password {
+    display: block;
+    margin-bottom: 20px;
+    color: #66e2dc; /* Color del enlace de olvido */
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+p {
+    color: white;
+    font-size: 14px;
+}
+
+p a {
+    color: #66e2dc; /* Color del enlace de crear cuenta */
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
