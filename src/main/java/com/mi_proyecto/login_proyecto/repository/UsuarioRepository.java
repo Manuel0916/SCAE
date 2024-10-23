@@ -3,7 +3,7 @@ package com.mi_proyecto.login_proyecto.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mi_proyecto.login_proyecto.modelo.Usuario;
+import com.mi_proyecto.login_proyecto.model.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
