@@ -47,10 +47,11 @@ public class LoginController {
     }
 
     @PostMapping({ "/", "/login" })
-    public String authenticate(@RequestParam String userOrEmail, @RequestParam String password, RedirectAttributes redirect) {
+    public String authenticate(@RequestParam String userOrEmail, @RequestParam String password,
+            RedirectAttributes redirect) {
         Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
         if (usuario != null && usuario.getPassword().equals(password)) {
-            return "/trabajo";
+            return "redirect:/trabajo";
         } else {
             redirect.addFlashAttribute("error", "Usuario o contraseña incorrectos");
             return "redirect:/";
@@ -82,7 +83,8 @@ public class LoginController {
     }
 
     @GetMapping("/trabajo")
-    public String trabajo() {
+    public String trabajo(Model model) {
+        model.addAttribute("usuario", new Usuario());
         return "Index";
     }
 
