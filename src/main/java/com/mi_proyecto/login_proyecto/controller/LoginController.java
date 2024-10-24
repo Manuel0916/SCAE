@@ -93,10 +93,10 @@ public class LoginController {
         Usuario user = usuarioServices.findByUserOrEmail(usuarioTb);
         if (user != null) {
             model.addAttribute("message", "Trabajando...");
-            return "/fecha_hora";
+            return "/fecha_hora"; // Consider using action for specific logic
         } else {
             model.addAttribute("error", "Usuario no encontrado.");
-            return "/trabajo";
+            return "/trabajo"; // Ensure view name matches
         }
     }
 
