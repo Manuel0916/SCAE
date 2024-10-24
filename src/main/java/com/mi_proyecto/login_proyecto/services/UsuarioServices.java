@@ -37,12 +37,4 @@ public class UsuarioServices {
         }
     }
 
-    public Usuario getUserByUsername(String userOrEmail) {
-        return findByUserOrEmail(userOrEmail);
-    }
-
-    public void registrarEntradaSalida(Long id, String action) {
-
-    }
-
 }
