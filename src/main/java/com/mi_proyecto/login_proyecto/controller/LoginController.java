@@ -106,6 +106,12 @@ public class LoginController {
         return "fecha_hora";
     }
 
+    @PostMapping("/fecha_hora")
+    public String fechaEntradaSalida(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "fecha_hora";
+    }
+
     @GetMapping("/reporte")
     public String reporte(Model model) {
         model.addAttribute("usuario", new Usuario());
