@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+  xmlns:th="http://www.thymeleaf.org">
+
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,12 +68,6 @@
             <button type="submit"
               class="btn btn-primary w-100">Registrar</button>
           </form>
-
-          <!-- Mostrar mensajes de éxito o error -->
-          <div th:if="${message}" class="alert alert-success" role="alert">
-            <span th:text="${message}"></span>
-          </div>
-
         </div>
       </div>
     </div>
