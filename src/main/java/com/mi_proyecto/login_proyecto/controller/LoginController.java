@@ -40,20 +40,21 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @GetMapping("/login")
+    @GetMapping({ "/", "/login" })
     public String login(Model model) {
         model.addAttribute("Users", new Usuario());
         return "login";
     }
 
-    @PostMapping("/login")
-    public String authenticate(@RequestParam String userOrEmail, @RequestParam String password, Model model) {
+    @PostMapping({ "/", "/login" })
+    public String authenticate(@RequestParam String userOrEmail, @RequestParam String password,
+                               RedirectAttributes redirect) {
         Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
         if (usuario != null && usuario.getPassword().equals(password)) {
-            return "redirect:/";
+            return "redirect:/trabajo"; // Ensure it redirects correctly
         } else {
-            model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "/login";
+            redirect.addFlashAttribute("error", "Usuario o contraseña incorrectos");
+            return "redirect:/";
         }
     }
 
@@ -70,7 +71,7 @@ public class LoginController {
             model.addAttribute("error", "Las contraseñas no coinciden.");
             return "/OlvidoContraseña";
         }
-        Usuario user = usuarioServices.getUserByUsername(userOrEmail);
+        Usuario user = usuarioServices.findByUserOrEmail(userOrEmail);
         if (user != null) {
             usuarioServices.olvidarContrasenna(user.getId(), newpassword);
             model.addAttribute("message", "Contraseña cambiada con éxito.");
@@ -81,26 +82,20 @@ public class LoginController {
         }
     }
 
-    @GetMapping({ " ", "/", "/trabajo" })
-    public String trabajo(Model model) {
-        model.addAttribute("usuario", new Usuario());
+    @GetMapping("/trabajo")
+    public String trabajo() {
         return "Index";
     }
 
-    @PostMapping({ " ", "/", "/trabajo" })
-    public String hacertrabajo(@RequestParam String userOrEmail, @RequestParam String newpassword, @RequestParam String password, Model model) {
-        if (!newpassword.equals(password)) {
-            model.addAttribute("error", "Las contraseñas no coinciden.");
-            return "/trabajo";
-        }
-        Usuario user = usuarioServices.getUserByUsername(userOrEmail);
+    @PostMapping("/trabajo")
+    public String hacerTrabajo(@RequestParam String usuarioTb, @RequestParam String action, Model model) {
+        Usuario user = usuarioServices.findByUserOrEmail(usuarioTb);
         if (user != null) {
-            usuarioServices.olvidarContrasenna(user.getId(), newpassword);
             model.addAttribute("message", "Trabajando...");
-            return "/fecha_hora";
+            return "/fecha_hora"; // Consider using action for specific logic
         } else {
             model.addAttribute("error", "Usuario no encontrado.");
-            return "/trabajo";
+            return "/trabajo"; // Ensure view name matches
         }
     }
 

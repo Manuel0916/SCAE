@@ -37,8 +37,4 @@ public class UsuarioServices {
         }
     }
 
-    public Usuario getUserByUsername(String userOrEmail) {
-        return findByUserOrEmail(userOrEmail);
-    }
-
 }
