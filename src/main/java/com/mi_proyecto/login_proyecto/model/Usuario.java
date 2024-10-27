@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
@@ -17,11 +18,14 @@ public class Usuario {
     private Long id;
 
     @Basic
+    @NonNull
     @Column(unique = true)
     private String username;
 
+
     @Basic
-    @Column(unique = false)
+    @NonNull
     private String email;
     private String password;
+
 }
