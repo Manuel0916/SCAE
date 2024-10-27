@@ -1,87 +1,76 @@
 <!DOCTYPE html>
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Asistencia - Empresa Extractora de Aceites</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Asistencia - Empresa Extractora de Aceites</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/Css/style.css">
+</head>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/Css/style.Css">
-  </head>
-
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Control de Asistencia</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/reporte">Reportes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/configuracion">Configuración</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-md-8 offset-md-2">
-          <h2 class="text-center mb-4">Registro de Entrada/Salida</h2>
-          <form action="/trabajo" method="post">
-            <div class="mb-3">
-              <label for="employeeId" class="form-label">Usuario del
-                Trabajador</label>
-              <input type="text" class="form-control" id="employeeId"
-                name="Usuario" placeholder="Ingresa el usuario del trabajador"
-                required>
-            </div>
-            <div class="mb-3">
-              <label for="action" class="form-label">Acción</label>
-              <select class="form-select" id="action" name="Action" required>
-                <option selected>Selecciona una acción</option>
-                <option value="entrada">Entrada</option>
-                <option value="salida">Salida</option>
-              </select>
-            </div>
-            <input type="date" class="form-control" id="fecha"
-                   name="fecha" placeholder="Ingresa el Fecha del trabajador"
-                   required>
-            <input type="time" class="form-control" id="hora"
-                   name="hora" placeholder="Ingresa el hora del trabajador"
-                   required>
-            <button type="submit"
-              class="btn btn-primary w-100">Registrar</button>
-          </form>
-        </div>
-      </div>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Control de Asistencia</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="/reporte">Reportes</a></li>
+        <li class="nav-item"><a class="nav-link" href="/configuracion">Configuración</a></li>
+      </ul>
     </div>
+  </div>
+</nav>
 
-    <!-- Footer -->
-    <footer style="background-color: #343a40; color: white;">
-      <p>&copy; 2024 Control de Asistencia - Empresa Extractora de Aceites</p>
-    </footer>
-  </body>
+<!-- Main Content -->
+<div class="container mt-5 form-container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2 class="text-center mb-4">Registro de Entrada/Salida</h2>
+      <form action="/trabajo" method="post">
+        <div class="mb-3">
+          <label for="employeeId" class="form-label">Usuario del Trabajador</label>
+          <input type="text" class="form-control" id="employeeId" name="Usuario"
+                 placeholder="Ingresa el usuario del trabajador" required>
+        </div>
+        <div class="mb-3">
+          <label for="action" class="form-label">Acción</label>
+          <select class="form-select" id="action" name="Action" required>
+            <option selected disabled>Selecciona una acción</option>
+            <option value="entrada">Entrada</option>
+            <option value="salida">Salida</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="fecha" class="form-label">Fecha</label>
+          <input type="date" class="form-control" id="fecha" name="fecha" required>
+        </div>
+        <div class="mb-3">
+          <label for="hora" class="form-label">Hora</label>
+          <input type="time" class="form-control" id="hora" name="hora" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Registrar</button>
+      </form>
+    </div>
+  </div>
+</div>
 
+<!-- Footer -->
+<footer class="footer mt-auto">
+  <p>&copy; 2024 Control de Asistencia - Empresa Extractora de Aceites</p>
+</footer>
+
+<!-- Bootstrap 5 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
