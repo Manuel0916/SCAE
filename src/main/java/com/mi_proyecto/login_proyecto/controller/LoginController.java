@@ -21,6 +21,10 @@ public class LoginController {
     private ActionRepository actionRepository;
     private UsuarioServices usuarioServices;
 
+    public LoginController(UsuarioServices usuarioServices) {
+        this.usuarioServices = usuarioServices;
+    }
+
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
