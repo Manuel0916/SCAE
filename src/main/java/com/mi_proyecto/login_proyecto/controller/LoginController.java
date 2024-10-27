@@ -47,7 +47,7 @@ public class LoginController {
     @PostMapping({ "/", "/login" })
     public String authenticate(@RequestParam String userOrEmail, @RequestParam String password,
                                RedirectAttributes redirect) {
-        Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail); // This line will work if usuarioServices is correctly injected
+        Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
         if (usuario != null && usuario.getPassword().equals(password)) {
             return "Index";
         } else {
