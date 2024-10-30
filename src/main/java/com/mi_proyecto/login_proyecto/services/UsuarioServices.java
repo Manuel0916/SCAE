@@ -2,7 +2,6 @@ package com.mi_proyecto.login_proyecto.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.mi_proyecto.login_proyecto.model.Usuario;
 import com.mi_proyecto.login_proyecto.repository.UsuarioRepository;
 
@@ -20,11 +19,10 @@ public class UsuarioServices {
         return user;
     }
 
+
+
     public Usuario getUserById(Long id) {
         return usuarioRepository.findById(id).orElse(null);
-    }
-
-    public void getEntradaYSalida() {
     }
 
     public void olvidarContrasenna(Long id, String password) {

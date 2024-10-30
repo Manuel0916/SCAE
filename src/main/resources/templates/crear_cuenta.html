@@ -12,7 +12,7 @@
 <div class="background-circles"></div>
 <div class="register-container">
   <h2>Crear Cuenta</h2>
-  <form action="#" th:action="@{/registro}" th:object="${usuario}" method="POST">
+  <form th:action="@{/registro}" th:object="${usuario}" method="POST">
     <input type="text" placeholder="Nombre Completo" th:field="*{username}" required>
     <input type="email" placeholder="Email" th:field="*{email}" required>
     <input type="password" placeholder="Contraseña" th:field="*{password}" required>
@@ -21,5 +21,17 @@
   </form>
   <p>¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a></p>
 </div>
+
+<script>
+  document.querySelector('form').addEventListener('submit', function (e) {
+    const password = document.querySelector('input[placeholder="Contraseña"]').value;
+    const confirmPassword = document.querySelector('input[placeholder="Confirma tu Contraseña"]').value;
+    if (password !== confirmPassword) {
+      e.preventDefault();
+      alert('Las contraseñas no coinciden.');
+    }
+  });
+</script>
+
 </body>
 </html>

@@ -6,28 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Usuario")
-public class Usuario {
-
+@Table(name = "Accion")
+public class Accion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Basic
-    @NonNull
-    @Column(unique = true)
-    private String username;
+    private String Usuario;
+    private String Fecha;
+    private String Hora;
+    public String Action;
 
-
-    @Basic
-    private String email;
-    private String password;
-
-    public Object getPassword() {
-        return null;
-    }
 }

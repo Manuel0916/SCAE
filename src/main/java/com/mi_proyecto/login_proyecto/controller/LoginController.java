@@ -1,13 +1,12 @@
 package com.mi_proyecto.login_proyecto.controller;
 
+import com.mi_proyecto.login_proyecto.model.Accion;
+import com.mi_proyecto.login_proyecto.repository.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mi_proyecto.login_proyecto.model.Usuario;
@@ -19,9 +18,12 @@ public class LoginController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
+    private ActionRepository actionRepository;
     private UsuarioServices usuarioServices;
+
+    public LoginController(UsuarioServices usuarioServices) {
+        this.usuarioServices = usuarioServices;
+    }
 
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
@@ -48,10 +50,10 @@ public class LoginController {
 
     @PostMapping({ "/", "/login" })
     public String authenticate(@RequestParam String userOrEmail, @RequestParam String password,
-            RedirectAttributes redirect) {
+                               RedirectAttributes redirect) {
         Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
         if (usuario != null && usuario.getPassword().equals(password)) {
-            return "redirect:/trabajo";
+            return "Index";
         } else {
             redirect.addFlashAttribute("error", "Usuario o contraseña incorrectos");
             return "redirect:/";
@@ -89,11 +91,19 @@ public class LoginController {
     }
 
     @PostMapping("/trabajo")
-    public String hacerTrabajo(@RequestParam String usuarioTb, @RequestParam String action, Model model) {
-        Usuario user = usuarioServices.findByUserOrEmail(usuarioTb);
-        if (user != null) {
-            model.addAttribute("message", "Trabajando...");
-            return "/fecha_hora";
+    public String hacerTrabajo(@RequestParam String Usuario, @RequestParam String Action, @RequestParam String fecha,
+                               @RequestParam String hora, Model model) {
+        Usuario user = usuarioRepository.findByUsername(Usuario);
+        System.out.println("Usuario: " + Usuario + ", Action: " + Action + ", Fecha: " + fecha + ", Hora: " + hora);
+        if (user != null && Action.isEmpty() && hora.isEmpty() && fecha.isEmpty()) {
+            Accion accion = new Accion();
+            accion.setUsuario(Usuario);
+            accion.setFecha(fecha);
+            accion.setHora(hora);
+            accion.setAction(Action);
+            actionRepository.save(accion);
+            model.addAttribute("message", "Registro exitoso.");
+            return "/";
         } else {
             model.addAttribute("error", "Usuario no encontrado.");
             return "/trabajo";
@@ -114,7 +124,7 @@ public class LoginController {
 
     @GetMapping("/configuracion")
     public String configuracion() {
-        return "configuracion";
+        return "/contrasenia";
     }
 
 }
