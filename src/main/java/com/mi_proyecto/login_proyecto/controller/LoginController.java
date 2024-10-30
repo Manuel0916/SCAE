@@ -110,6 +110,12 @@ public class LoginController {
         }
     }
 
+    @GetMapping("/fecha_hora")
+    public String fecha_hora(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "fecha_hora";
+    }
+
     @GetMapping("/reporte")
     public String reporte(Model model) {
         model.addAttribute("usuario", new Usuario());

@@ -27,4 +27,7 @@ public class Usuario {
     private String email;
     private String password;
 
+    public Object getPassword() {
+        return null;
+    }
 }
