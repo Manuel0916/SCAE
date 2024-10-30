@@ -40,7 +40,7 @@
       <form action="/trabajo" method="post">
         <div class="mb-3">
           <label for="employeeId" class="form-label">Usuario del Trabajador</label>
-          <input type="text" class="form-control" id="employeeId" name="Usuario"
+          <input type="text" class="form-control" id="employeeId" name="Usuario" th:field="*{username}"
                  placeholder="Ingresa el usuario del trabajador" required>
         </div>
         <div class="mb-3">
@@ -59,8 +59,16 @@
           <label for="hora" class="form-label">Hora</label>
           <input type="time" class="form-control" id="hora" name="hora" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100">Registrar</button>
+        <button type="submit" value="Enviar" class="btn btn-primary w-100">Registrar</button>
       </form>
+      <div th:if="${message}">
+        <p th:text="${message}"></p>
+      </div>
+
+      <div th:if="${error}">
+        <p th:text="${error}"></p>
+      </div>
+
     </div>
   </div>
 </div>

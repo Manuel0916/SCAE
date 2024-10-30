@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,5 +29,4 @@ public class Usuario {
     @NonNull
     private String email;
     private String password;
-
 }

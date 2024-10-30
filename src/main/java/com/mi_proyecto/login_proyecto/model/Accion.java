@@ -19,9 +19,11 @@ public class Accion {
     private Long id;
 
     @Basic
-    private String Usuario;
     private String Fecha;
     private String Hora;
     public String Action;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 }
