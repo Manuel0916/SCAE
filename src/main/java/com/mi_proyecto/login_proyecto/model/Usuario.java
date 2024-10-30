@@ -22,12 +22,9 @@ public class Usuario {
     @Column(unique = true)
     private String username;
 
-
     @Basic
+    @NonNull
     private String email;
     private String password;
 
-    public Object getPassword() {
-        return null;
-    }
 }

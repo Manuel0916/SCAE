@@ -18,8 +18,11 @@ public class Accion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
     @Basic
-    private String Usuario;
     private String Fecha;
     private String Hora;
     public String Action;

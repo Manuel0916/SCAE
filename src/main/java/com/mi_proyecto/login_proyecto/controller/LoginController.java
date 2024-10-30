@@ -21,7 +21,10 @@ public class LoginController {
     private ActionRepository actionRepository;
     private UsuarioServices usuarioServices;
 
-    public LoginController(UsuarioServices usuarioServices) {
+    @Autowired
+    public LoginController(ActionRepository actionRepository, UsuarioRepository usuarioRepository, UsuarioServices usuarioServices) {
+        this.actionRepository = actionRepository;
+        this.usuarioRepository = usuarioRepository;
         this.usuarioServices = usuarioServices;
     }
 
@@ -91,29 +94,25 @@ public class LoginController {
     }
 
     @PostMapping("/trabajo")
-    public String hacerTrabajo(@RequestParam String Usuario, @RequestParam String Action, @RequestParam String fecha,
-                               @RequestParam String hora, Model model) {
-        Usuario user = usuarioRepository.findByUsername(Usuario);
-        System.out.println("Usuario: " + Usuario + ", Action: " + Action + ", Fecha: " + fecha + ", Hora: " + hora);
-        if (user != null && Action.isEmpty() && hora.isEmpty() && fecha.isEmpty()) {
-            Accion accion = new Accion();
-            accion.setUsuario(Usuario);
-            accion.setFecha(fecha);
-            accion.setHora(hora);
-            accion.setAction(Action);
-            actionRepository.save(accion);
-            model.addAttribute("message", "Registro exitoso.");
-            return "/";
-        } else {
-            model.addAttribute("error", "Usuario no encontrado.");
-            return "/trabajo";
-        }
-    }
+    public String hacerTrabajo(@RequestParam String usuarioNombre, @RequestParam String accion,
+                               @RequestParam String fecha, @RequestParam String hora, Model model) {
+        Usuario user = usuarioRepository.findByUsername(usuarioNombre);
+        System.out.println("Usuario: " + usuarioNombre + ", Action: " + accion + ", Fecha: " + fecha + ", Hora: " + hora);
 
-    @GetMapping("/fecha_hora")
-    public String fecha_hora(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "fecha_hora";
+        if (user != null && !accion.isEmpty() && !hora.isEmpty() && !fecha.isEmpty()) {
+            Accion nuevaAccion = new Accion();
+            nuevaAccion.setUsuario(user);
+            nuevaAccion.setFecha(fecha);
+            nuevaAccion.setHora(hora);
+            nuevaAccion.setAction(accion);
+            actionRepository.save(nuevaAccion);
+
+            model.addAttribute("message", "Registro exitoso.");
+            return "redirect:/";
+        } else {
+            model.addAttribute("error", "Usuario no encontrado o datos incompletos.");
+            return "trabajo";
+        }
     }
 
     @GetMapping("/reporte")
