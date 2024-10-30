@@ -1,8 +1,7 @@
 package com.mi_proyecto.login_proyecto.controller;
 
-import com.mi_proyecto.login_proyecto.model.Dto.AccionDto;
-import com.mi_proyecto.login_proyecto.repository.AccionRepository;
-import com.mi_proyecto.login_proyecto.services.AccionServices;
+import com.mi_proyecto.login_proyecto.model.Accion;
+import com.mi_proyecto.login_proyecto.repository.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +18,7 @@ public class LoginController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    private AccionRepository accionRepository;
-    private AccionServices accionService;
+    private ActionRepository actionRepository;
     private UsuarioServices usuarioServices;
 
     public LoginController(UsuarioServices usuarioServices) {
@@ -45,21 +43,15 @@ public class LoginController {
     }
 
     @GetMapping({ "/", "/login" })
-    public String showLoginPage(Model model) {
-        model.addAttribute("usuario", new Usuario());
+    public String login(Model model) {
+        model.addAttribute("Users", new Usuario());
         return "login";
     }
 
     @PostMapping({ "/", "/login" })
     public String authenticate(@RequestParam String userOrEmail, @RequestParam String password,
-                               RedirectAttributes redirect, BindingResult result) {
-        if (result.hasErrors()) {
-            return "formulario";
-        }
+                               RedirectAttributes redirect) {
         Usuario usuario = usuarioServices.findByUserOrEmail(userOrEmail);
-
-        System.out.println( " Aqui estuve ... Hp ");
-
         if (usuario != null && usuario.getPassword().equals(password)) {
             return "Index";
         } else {
@@ -103,18 +95,18 @@ public class LoginController {
                                @RequestParam String hora, Model model) {
         Usuario user = usuarioRepository.findByUsername(Usuario);
         System.out.println("Usuario: " + Usuario + ", Action: " + Action + ", Fecha: " + fecha + ", Hora: " + hora);
-        if (user != null && !Action.isEmpty() && !hora.isEmpty() && !fecha.isEmpty()) {
-            AccionDto accionDto = new AccionDto();
-            accionDto.setUsuarioId(user.getId());
-            accionDto.setAction(Action);
-            accionDto.setFecha(fecha);
-            accionDto.setHora(hora);
-            accionService.saveAccion(accionDto);
+        if (user != null && Action.isEmpty() && hora.isEmpty() && fecha.isEmpty()) {
+            Accion accion = new Accion();
+            accion.setUsuario(Usuario);
+            accion.setFecha(fecha);
+            accion.setHora(hora);
+            accion.setAction(Action);
+            actionRepository.save(accion);
             model.addAttribute("message", "Registro exitoso.");
-            return "redirect:/trabajo";
+            return "/";
         } else {
-            model.addAttribute("error", "Datos incompletos o usuario no encontrado.");
-            return "trabajo";
+            model.addAttribute("error", "Usuario no encontrado.");
+            return "/trabajo";
         }
     }
 
