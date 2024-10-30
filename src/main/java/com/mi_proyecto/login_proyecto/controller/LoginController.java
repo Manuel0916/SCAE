@@ -2,6 +2,8 @@ package com.mi_proyecto.login_proyecto.controller;
 
 import com.mi_proyecto.login_proyecto.model.Accion;
 import com.mi_proyecto.login_proyecto.repository.ActionRepository;
+import com.mi_proyecto.login_proyecto.model.Reporte;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mi_proyecto.login_proyecto.model.Usuario;
+import com.mi_proyecto.login_proyecto.repository.ReporteRepository;
 import com.mi_proyecto.login_proyecto.repository.UsuarioRepository;
 import com.mi_proyecto.login_proyecto.services.UsuarioServices;
 
@@ -20,12 +23,14 @@ public class LoginController {
     private UsuarioRepository usuarioRepository;
     private ActionRepository actionRepository;
     private UsuarioServices usuarioServices;
+    private ReporteRepository reporteRepository;
 
     @Autowired
-    public LoginController(ActionRepository actionRepository, UsuarioRepository usuarioRepository, UsuarioServices usuarioServices) {
+    public LoginController(ActionRepository actionRepository, UsuarioRepository usuarioRepository, UsuarioServices usuarioServices, ReporteRepository reporteRepository) {
         this.actionRepository = actionRepository;
         this.usuarioRepository = usuarioRepository;
         this.usuarioServices = usuarioServices;
+        this.reporteRepository = reporteRepository;
     }
 
     @GetMapping("/registro")
@@ -114,11 +119,33 @@ public class LoginController {
         }
     }
 
+    
     @GetMapping("/reporte")
     public String reporte(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "reporte";
     }
+    
+    @PostMapping("/reporte")
+    public String hacerReporte(@RequestParam String usuarioNombre, @RequestParam String reporte, Model model) {
+    Usuario user = usuarioServices.findByUserOrEmail(usuarioNombre);
+
+    if (user != null && !reporte.isEmpty()) {
+        Reporte nuevoReporte = new Reporte(); 
+        nuevoReporte.setUsuario(user); 
+        nuevoReporte.setContenido(reporte);
+        
+        reporteRepository.save(nuevoReporte);
+
+        model.addAttribute("message", "Reporte registrado exitosamente");
+        return "redirect:/";
+    } else {
+        model.addAttribute("error", "Usuario no encontrado o datos incompletos.");
+        return "reporte";
+    }
+    }
+
+    
 
     @GetMapping("/configuracion")
     public String configuracion() {

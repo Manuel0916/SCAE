@@ -20,8 +20,13 @@
 <main>
     <h2>REPORTE</h2>
     <p>Escriba su reporte</p>
-    <textarea placeholder="Escriba su reporte aquí..."></textarea>
-    <button>ENVIAR</button>
+    <form action="/reporte" method="post">
+        <input type="text" name="usuarioNombre" placeholder="Escriba su nombre" required>
+        <textarea name="reporte" placeholder="Escriba su reporte aquí..." required></textarea>
+        <button type="submit">ENVIAR</button>
+    </form>
+    
+
 </main>
 
 <footer>
