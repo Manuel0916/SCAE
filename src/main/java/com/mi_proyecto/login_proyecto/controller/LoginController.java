@@ -96,8 +96,7 @@ public class LoginController {
     @PostMapping("/trabajo")
     public String hacerTrabajo(@RequestParam String usuarioNombre, @RequestParam String accion,
                                @RequestParam String fecha, @RequestParam String hora, Model model) {
-        Usuario user = usuarioRepository.findByUsername(usuarioNombre);
-        System.out.println("Usuario: " + usuarioNombre + ", Action: " + accion + ", Fecha: " + fecha + ", Hora: " + hora);
+        Usuario user = usuarioServices.findByUserOrEmail(usuarioNombre);
 
         if (user != null && !accion.isEmpty() && !hora.isEmpty() && !fecha.isEmpty()) {
             Accion nuevaAccion = new Accion();
