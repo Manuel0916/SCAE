@@ -1,37 +1,27 @@
 package com.mi_proyecto.login_proyecto.controller;
 
-import com.mi_proyecto.login_proyecto.model.Accion;
-import com.mi_proyecto.login_proyecto.repository.ActionRepository;
-import com.mi_proyecto.login_proyecto.model.Reporte;
-
+import com.mi_proyecto.login_proyecto.services.AccionServices;
+import com.mi_proyecto.login_proyecto.services.ReporteServices;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.mi_proyecto.login_proyecto.model.Usuario;
-import com.mi_proyecto.login_proyecto.repository.ReporteRepository;
 import com.mi_proyecto.login_proyecto.repository.UsuarioRepository;
 import com.mi_proyecto.login_proyecto.services.UsuarioServices;
 
 @Controller
+@AllArgsConstructor
 public class LoginController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    private ActionRepository actionRepository;
+    private AccionServices AccionServices;
     private UsuarioServices usuarioServices;
-    private ReporteRepository reporteRepository;
-
-    @Autowired
-    public LoginController(ActionRepository actionRepository, UsuarioRepository usuarioRepository, UsuarioServices usuarioServices, ReporteRepository reporteRepository) {
-        this.actionRepository = actionRepository;
-        this.usuarioRepository = usuarioRepository;
-        this.usuarioServices = usuarioServices;
-        this.reporteRepository = reporteRepository;
-    }
+    private ReporteServices reporteServices;
 
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
@@ -101,20 +91,13 @@ public class LoginController {
     @PostMapping("/trabajo")
     public String hacerTrabajo(@RequestParam String usuarioNombre, @RequestParam String accion,
                                @RequestParam String fecha, @RequestParam String hora, Model model) {
-        Usuario user = usuarioServices.findByUserOrEmail(usuarioNombre);
+        String mensaje = AccionServices.registrarAccion(usuarioNombre, accion, fecha, hora);
 
-        if (user != null && !accion.isEmpty() && !hora.isEmpty() && !fecha.isEmpty()) {
-            Accion nuevaAccion = new Accion();
-            nuevaAccion.setUsuario(user);
-            nuevaAccion.setFecha(fecha);
-            nuevaAccion.setHora(hora);
-            nuevaAccion.setAction(accion);
-            actionRepository.save(nuevaAccion);
-
-            model.addAttribute("message", "Registro exitoso.");
+        if (mensaje.equals("Registro exitoso.")) {
+            model.addAttribute("message", mensaje);
             return "redirect:/";
         } else {
-            model.addAttribute("error", "Usuario no encontrado o datos incompletos.");
+            model.addAttribute("error", mensaje);
             return "trabajo";
         }
     }
@@ -125,27 +108,19 @@ public class LoginController {
         model.addAttribute("usuario", new Usuario());
         return "reporte";
     }
-    
+
     @PostMapping("/reporte")
     public String hacerReporte(@RequestParam String usuarioNombre, @RequestParam String reporte, Model model) {
-    Usuario user = usuarioServices.findByUserOrEmail(usuarioNombre);
+        String mensaje = reporteServices.registrarReporte(usuarioNombre, reporte);
 
-    if (user != null && !reporte.isEmpty()) {
-        Reporte nuevoReporte = new Reporte(); 
-        nuevoReporte.setUsuario(user); 
-        nuevoReporte.setContenido(reporte);
-        
-        reporteRepository.save(nuevoReporte);
-
-        model.addAttribute("message", "Reporte registrado exitosamente");
-        return "redirect:/";
-    } else {
-        model.addAttribute("error", "Usuario no encontrado o datos incompletos.");
-        return "reporte";
+        if (mensaje.equals("Reporte registrado exitosamente")) {
+            model.addAttribute("message", mensaje);
+            return "redirect:/";
+        } else {
+            model.addAttribute("error", mensaje);
+            return "reporte";
+        }
     }
-    }
-
-    
 
     @GetMapping("/configuracion")
     public String configuracion() {

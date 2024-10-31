@@ -6,5 +6,4 @@ import com.mi_proyecto.login_proyecto.model.Reporte;
 
 @Repository
 public interface ReporteRepository extends JpaRepository<Reporte, Long>{
-
 }

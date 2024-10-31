@@ -32,7 +32,6 @@ public class Reporte {
     private Usuario usuario;
 
     @Basic
-    @NonNull
     private String contenido;
 
 }
